@@ -1,4 +1,6 @@
-import os, sys, tokenize, subprocess
+import os, sys, tokenize, subprocess, re
+
+matcher = re.compile('def .*\(.*\)\:|class .*\(.*\)\:')
 
 source_file = os.path.join(os.getcwd(), '../snickers/main.py')
 #proc = subprocess.Popen("egrep 'def|class' {}".format(source_file), stdout=subprocess.PIPE)
@@ -16,6 +18,9 @@ tokens_g = tokenize.tokenize(readline)
 look_for = 'class_or_function'
 current_node = module_objects
 indentation_count = 0
+
+def extract_interesting_lines(string):
+    ss = string.split("\n")
 
 def state_append(c_node, obj, current_indentation):
     obj['parent_node'] = c_node
